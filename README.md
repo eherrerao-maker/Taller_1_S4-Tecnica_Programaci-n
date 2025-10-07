@@ -76,13 +76,13 @@ Permite almacenar los saldos de diez cuentas bancarias y consultar el saldo corr
 
 ---
 
-## 🧾 Conclusiones
+## Conclusiones
 El desarrollo de los ejercicios permitió afianzar los conocimientos sobre el uso de estructuras repetitivas y vectores, así como comprender su aplicación práctica en la resolución de problemas.  
 A través de este taller, los estudiantes fortalecieron sus capacidades de análisis lógico, pensamiento computacional y formulación de soluciones mediante la programación estructurada en JavaScript.
 
 ---
 
-## ✍️ Datos Generales 
+## Datos Generales 
 **Docente:** Pr. Ernesto Guaman  
 **Institución:** Universidad Estatal Milagro UNEMI
 **Fecha de entrega:** [07/10/2025]  
