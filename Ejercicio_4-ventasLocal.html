@@ -38,4 +38,122 @@
                 </td>
             </tr>
 
-            <!-- FILA 4: Calcular ven
+            <!-- FILA 4: Calcular venta menor -->
+            <tr>
+                <td><button id="id-btn-menor">Mostrar Venta Menor</button></td>
+                <td colspan="3">
+                    <span id="id-venta-menor">---</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // -----------------------------------------
+        // DECLARACIÓN DE VARIABLES Y CONSTANTES
+        // -----------------------------------------
+        const vectorVentas = []; // Vector que almacenará las ventas diarias
+        const LIMITE_DIAS = 15; // Solo se registran 15 días de ventas
+        let contador = 0; // Contador para las ventas ingresadas
+
+        // -----------------------------------------
+        // CAPTURA DE ELEMENTOS HTML
+        // -----------------------------------------
+        const txtVenta = document.getElementById("id-txt-venta");
+        const btnAgregar = document.getElementById("id-btn-agregar");
+        const btnMostrar = document.getElementById("id-btn-mostrar");
+        const btnMayor = document.getElementById("id-btn-mayor");
+        const btnMenor = document.getElementById("id-btn-menor");
+
+        const mostrarVentas = document.getElementById("id-mostrar-ventas");
+        const mostrarVentaMayor = document.getElementById("id-venta-mayor");
+        const mostrarVentaMenor = document.getElementById("id-venta-menor");
+
+        // -----------------------------------------
+        // EVENTO 1: AGREGAR VENTA AL VECTOR
+        // -----------------------------------------
+        btnAgregar.addEventListener("click", () => {
+            if (contador < LIMITE_DIAS) {
+                const venta = parseFloat(txtVenta.value); // Convertimos a número decimal
+
+                if (!isNaN(venta) && venta >= 0) {
+                    vectorVentas.push(venta); // Guardamos la venta
+                    contador++; // Incrementamos el contador
+                    txtVenta.value = ''; // Limpiamos la caja
+                    console.log("Ventas actuales:", vectorVentas);
+                } else {
+                    alert("Ingrese un valor válido para la venta.");
+                }
+            } else {
+                alert("Solo puede ingresar las ventas de " + LIMITE_DIAS + " días.");
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 2: MOSTRAR VENTAS INGRESADAS
+        // -----------------------------------------
+        btnMostrar.addEventListener("click", () => {
+            if (vectorVentas.length > 0) {
+                let texto = "";
+                for (let i = 0; i < vectorVentas.length; i++) {
+                    texto += "Día " + (i + 1) + ": $" + vectorVentas[i].toFixed(2) + "<br>";
+                }
+                mostrarVentas.innerHTML = texto;
+            } else {
+                mostrarVentas.innerHTML = "No se han registrado ventas aún.";
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 3: DETERMINAR VENTA MAYOR
+        // -----------------------------------------
+        btnMayor.addEventListener("click", () => {
+            if (vectorVentas.length === LIMITE_DIAS) {
+                // Inicializamos el valor máximo y el índice
+                let ventaMayor = vectorVentas[0];
+                let diaMayor = 1;
+
+                // Recorremos el vector para encontrar la mayor venta
+                for (let i = 1; i < vectorVentas.length; i++) {
+                    if (vectorVentas[i] > ventaMayor) {
+                        ventaMayor = vectorVentas[i];
+                        diaMayor = i + 1; // Guardamos el día (posición + 1)
+                    }
+                }
+
+                // Mostramos el resultado
+                mostrarVentaMayor.innerHTML = 
+                    "La venta mayor fue de $" + ventaMayor.toFixed(2) + " en el día " + diaMayor + ".";
+            } else {
+                alert("Debe ingresar las ventas de los 15 días antes de calcular la venta mayor.");
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 4: DETERMINAR VENTA MENOR
+        // -----------------------------------------
+        btnMenor.addEventListener("click", () => {
+            if (vectorVentas.length === LIMITE_DIAS) {
+                // Inicializamos el valor mínimo y el índice
+                let ventaMenor = vectorVentas[0];
+                let diaMenor = 1;
+
+                // Recorremos el vector para encontrar la menor venta
+                for (let i = 1; i < vectorVentas.length; i++) {
+                    if (vectorVentas[i] < ventaMenor) {
+                        ventaMenor = vectorVentas[i];
+                        diaMenor = i + 1;
+                    }
+                }
+
+                // Mostramos el resultado
+                mostrarVentaMenor.innerHTML = 
+                    "La venta menor fue de $" + ventaMenor.toFixed(2) + " en el día " + diaMenor + ".";
+            } else {
+                alert("Debe ingresar las ventas de los 15 días antes de calcular la venta menor.");
+            }
+        });
+    </script>
+
+</body>
+</html>
