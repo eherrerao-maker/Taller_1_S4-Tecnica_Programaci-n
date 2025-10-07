@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2 - Promedio de Calificaciones</title>
+</head>
+<body>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th colspan="4">Promedio de calificaciones - Universidad Estatal</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- FILA 1: Entrada de datos -->
+            <tr>
+                <td>Ingrese la Nota:</td>
+                <td><input type="number" id="id-txt-nota" placeholder="Ej: 8.5"></td>
+                <td><button id="id-btn-agregar">Agregar</button></td>
+                <td><button id="id-btn-presentar">Mostrar Notas</button></td>
+            </tr>
+
+            <!-- FILA 2: Mostrar notas -->
+            <tr>
+                <td colspan="4">
+                    <span id="id-mostrar-notas">Aquí aparecerán las notas ingresadas...</span>
+                </td>
+            </tr>
+
+            <!-- FILA 3: Calcular promedio -->
+            <tr>
+                <td><button id="id-btn-calcular-promedio">Calcular Promedio</button></td>
+                <td colspan="3"><span id="id-mostrar-promedio">0.00</span></td>
+            </tr>
+
+            <!-- FILA 4: Mostrar aprobados y reprobados -->
+            <tr>
+                <td colspan="2"><button id="id-btn-contar">Contar Aprobados/Reprobados</button></td>
+                <td>Aprobados: <span id="id-aprobados">0</span></td>
+                <td>Reprobados: <span id="id-reprobados">0</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // -----------------------------------------
+        // DECLARACIÓN DE VARIABLES Y CONSTANTES
+        // -----------------------------------------
+        const vectorNotas = []; // Vector donde se guardarán las notas
+        const LIMITE_NOTAS = 12; // Solo se permiten 12 estudiantes
+        let contador = 0; // Contador de notas ingresadas
+
+        // -----------------------------------------
+        // CAPTURA DE ELEMENTOS HTML
+        // -----------------------------------------
+        const txtNota = document.getElementById("id-txt-nota");
+        const btnAgregar = document.getElementById("id-btn-agregar");
+        const btnPresentar = document.getElementById("id-btn-presentar");
+        const btnCalcularPromedio = document.getElementById("id-btn-calcular-promedio");
+        const btnContar = document.getElementById("id-btn-contar");
+
+        const mostrarNotas = document.getElementById("id-mostrar-notas");
+        const mostrarPromedio = document.getElementById("id-mostrar-promedio");
+        const mostrarAprobados = document.getElementById("id-aprobados");
+        const mostrarReprobados = document.getElementById("id-reprobados");
+
+        // -----------------------------------------
+        // EVENTO 1: AGREGAR NOTA AL VECTOR
+        // -----------------------------------------
+        btnAgregar.addEventListener("click", () => {
+            if (contador < LIMITE_NOTAS) {
+                // Convertimos el valor del input a número decimal
+                const nota = parseFloat(txtNota.value);
+
+                // Validamos que sea un número válido
+                if (!isNaN(nota) && nota >= 0 && nota <= 10) {
+                    vectorNotas.push(nota); // Agregamos la nota al vector
+                    contador++; // Aumentamos el contador
+                    txtNota.value = ''; // Limpiamos el campo
+                    console.log("Notas actuales:", vectorNotas); // Muestra el vector en la consola
+                } else {
+                    alert("Ingrese una nota válida entre 0 y 10.");
+                }
+            } else {
+                alert("Ya ingresó las 12 notas permitidas.");
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 2: MOSTRAR NOTAS INGRESADAS
+        // -----------------------------------------
+        btnPresentar.addEventListener("click", () => {
+            if (vectorNotas.length > 0) {
+                mostrarNotas.innerHTML = "Notas ingresadas: " + vectorNotas.join(" ; ");
+            } else {
+                mostrarNotas.innerHTML = "Aún no se han ingresado notas.";
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 3: CALCULAR PROMEDIO GENERAL
+        // -----------------------------------------
+        btnCalcularPromedio.addEventListener("click", () => {
+            if (vectorNotas.length > 0) {
+                let suma = 0;
+
+                // Recorremos el vector con un ciclo for para sumar las notas
+                for (let i = 0; i < vectorNotas.length; i++) {
+                    suma = suma + vectorNotas[i];
+                }
+
+                // Calculamos el promedio
+                let promedio = suma / vectorNotas.length;
+
+                // Mostramos el resultado con dos decimales
+                mostrarPromedio.innerHTML = promedio.toFixed(2);
+            } else {
+                alert("Primero debe ingresar las notas de los estudiantes.");
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 4: CONTAR APROBADOS Y REPROBADOS
+        // -----------------------------------------
+        btnContar.addEventListener("click", () => {
+            if (vectorNotas.length > 0) {
+                let aprobados = 0;
+                let reprobados = 0;
+
+                // Recorremos el vector con un ciclo for
+                for (let i = 0; i < vectorNotas.length; i++) {
+                    if (vectorNotas[i] >= 7) {
+                        aprobados++;
+                    } else {
+                        reprobados++;
+                    }
+                }
+
+                // Mostramos los resultados en pantalla
+                mostrarAprobados.innerHTML = aprobados;
+                mostrarReprobados.innerHTML = reprobados;
+            } else {
+                alert("Primero debe ingresar las notas para contar los resultados.");
+            }
+        });
+    </script>
+
+</body>
+</html>

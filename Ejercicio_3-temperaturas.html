@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3 - Registro de Temperaturas Semanales</title>
+</head>
+<body>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th colspan="4">Registro de Temperaturas Semanales - Ciudad de Manta</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- FILA 1: Entrada de temperaturas -->
+            <tr>
+                <td>Ingrese la temperatura del día:</td>
+                <td><input type="number" id="id-txt-temp" placeholder="Ej: 28.5"></td>
+                <td><button id="id-btn-agregar">Agregar</button></td>
+                <td><button id="id-btn-mostrar">Mostrar temperaturas</button></td>
+            </tr>
+
+            <!-- FILA 2: Mostrar las temperaturas ingresadas -->
+            <tr>
+                <td colspan="4">
+                    <span id="id-mostrar-temp">Las temperaturas ingresadas aparecerán aquí...</span>
+                </td>
+            </tr>
+
+            <!-- FILA 3: Calcular promedio semanal -->
+            <tr>
+                <td><button id="id-btn-promedio">Calcular Promedio</button></td>
+                <td colspan="3">Promedio semanal: <span id="id-promedio">0.00</span> °C</td>
+            </tr>
+
+            <!-- FILA 4: Mostrar los días que superaron el promedio -->
+            <tr>
+                <td colspan="4">
+                    <button id="id-btn-superaron">Mostrar días que superaron el promedio</button><br>
+                    <span id="id-superaron">Aquí se mostrarán los días más calurosos...</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // -----------------------------------------
+        // DECLARACIÓN DE VARIABLES Y CONSTANTES
+        // -----------------------------------------
+        const vectorTemperaturas = []; // Vector que almacenará las temperaturas diarias
+        const LIMITE_DIAS = 7; // Se registrarán 7 días (una semana)
+        let contador = 0; // Lleva el control del número de temperaturas ingresadas
+
+        // Arreglo con los nombres de los días para referencia
+        const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+
+        // -----------------------------------------
+        // CAPTURA DE ELEMENTOS HTML
+        // -----------------------------------------
+        const txtTemp = document.getElementById("id-txt-temp");
+        const btnAgregar = document.getElementById("id-btn-agregar");
+        const btnMostrar = document.getElementById("id-btn-mostrar");
+        const btnPromedio = document.getElementById("id-btn-promedio");
+        const btnSuperaron = document.getElementById("id-btn-superaron");
+
+        const mostrarTemp = document.getElementById("id-mostrar-temp");
+        const mostrarPromedio = document.getElementById("id-promedio");
+        const mostrarSuperaron = document.getElementById("id-superaron");
+
+        // -----------------------------------------
+        // EVENTO 1: AGREGAR TEMPERATURA
+        // -----------------------------------------
+        btnAgregar.addEventListener("click", () => {
+            if (contador < LIMITE_DIAS) {
+                const temperatura = parseFloat(txtTemp.value); // Convertimos el valor del input a número decimal
+
+                // Validamos que el valor ingresado sea un número válido
+                if (!isNaN(temperatura)) {
+                    vectorTemperaturas.push(temperatura); // Agregamos al vector
+                    contador++; // Incrementamos el contador
+                    txtTemp.value = ''; // Limpiamos el campo
+                    console.log("Temperaturas actuales:", vectorTemperaturas);
+                } else {
+                    alert("Por favor ingrese una temperatura válida.");
+                }
+            } else {
+                alert("Ya ingresó las 7 temperaturas de la semana.");
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 2: MOSTRAR TEMPERATURAS INGRESADAS
+        // -----------------------------------------
+        btnMostrar.addEventListener("click", () => {
+            if (vectorTemperaturas.length > 0) {
+                // Mostramos cada día con su temperatura correspondiente
+                let texto = "";
+                for (let i = 0; i < vectorTemperaturas.length; i++) {
+                    texto += `${diasSemana[i]}: ${vectorTemperaturas[i]} °C<br>`;
+                }
+                mostrarTemp.innerHTML = texto;
+            } else {
+                mostrarTemp.innerHTML = "No se han registrado temperaturas aún.";
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 3: CALCULAR PROMEDIO SEMANAL
+        // -----------------------------------------
+        btnPromedio.addEventListener("click", () => {
+            if (vectorTemperaturas.length === LIMITE_DIAS) {
+                let suma = 0;
+
+                // Recorremos el vector para sumar las temperaturas
+                for (let i = 0; i < vectorTemperaturas.length; i++) {
+                    suma = suma + vectorTemperaturas[i];
+                }
+
+                // Calculamos el promedio
+                let promedio = suma / LIMITE_DIAS;
+
+                // Mostramos el resultado con dos decimales
+                mostrarPromedio.innerHTML = promedio.toFixed(2);
+            } else {
+                alert("Debe ingresar las temperaturas de los 7 días antes de calcular el promedio.");
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 4: MOSTRAR DÍAS QUE SUPERARON EL PROMEDIO
+        // -----------------------------------------
+        btnSuperaron.addEventListener("click", () => {
+            if (vectorTemperaturas.length === LIMITE_DIAS) {
+                // Primero calculamos el promedio
+                let suma = 0;
+                for (let i = 0; i < vectorTemperaturas.length; i++) {
+                    suma += vectorTemperaturas[i];
+                }
+                const promedio = suma / LIMITE_DIAS;
+
+                // Buscamos los días que superaron el promedio
+                let diasAltos = [];
+                for (let i = 0; i < vectorTemperaturas.length; i++) {
+                    if (vectorTemperaturas[i] > promedio) {
+                        diasAltos.push(`${diasSemana[i]} (${vectorTemperaturas[i]} °C)`);
+                    }
+                }
+
+                // Mostramos el resultado
+                if (diasAltos.length > 0) {
+                    mostrarSuperaron.innerHTML = 
+                        "Días que superaron el promedio (" + promedio.toFixed(2) + " °C):<br>" + 
+                        diasAltos.join("<br>");
+                } else {
+                    mostrarSuperaron.innerHTML = 
+                        "Ningún día superó el promedio semanal (" + promedio.toFixed(2) + " °C).";
+                }
+            } else {
+                alert("Debe ingresar todas las temperaturas antes de realizar esta acción.");
+            }
+        });
+    </script>
+
+</body>
+</html>

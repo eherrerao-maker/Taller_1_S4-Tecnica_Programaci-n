@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 4 - Análisis de Ventas</title>
+</head>
+<body>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th colspan="4">Análisis de Ventas - Boutique de María</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- FILA 1: Entrada de datos -->
+            <tr>
+                <td>Ingrese la venta del día:</td>
+                <td><input type="number" id="id-txt-venta" placeholder="Ej: 150.50"></td>
+                <td><button id="id-btn-agregar">Agregar</button></td>
+                <td><button id="id-btn-mostrar">Mostrar ventas</button></td>
+            </tr>
+
+            <!-- FILA 2: Mostrar todas las ventas -->
+            <tr>
+                <td colspan="4">
+                    <span id="id-mostrar-ventas">Las ventas ingresadas aparecerán aquí...</span>
+                </td>
+            </tr>
+
+            <!-- FILA 3: Calcular venta mayor -->
+            <tr>
+                <td><button id="id-btn-mayor">Mostrar Venta Mayor</button></td>
+                <td colspan="3">
+                    <span id="id-venta-mayor">---</span>
+                </td>
+            </tr>
+
+            <!-- FILA 4: Calcular ven

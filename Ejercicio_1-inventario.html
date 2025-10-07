@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1 - Control de Inventario</title>
+</head>
+<body>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th colspan="4">Control de inventario - Tienda de abarrotes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ingrese el precio del producto:</td>
+                <td><input type="number" id="id-txt-precio" placeholder="Ej: 2.50"></td>
+                <td><button id="id-btn-agregar">Agregar</button></td>
+                <td><button id="id-btn-mostrar">Mostrar precios</button></td>
+            </tr>
+
+            <tr>
+                <td colspan="4">
+                    <span id="id-mostrar-precios">Los precios ingresados aparecerán aquí...</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><button id="id-btn-calcular-total">Calcular total del inventario</button></td>
+                <td colspan="3"><span id="id-total">0.00</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // -----------------------------
+        // DECLARACIÓN DE VARIABLES
+        // -----------------------------
+        const vectorPrecios = [];  // Vector que almacenará los precios de los productos
+        const LIMITE_PRODUCTOS = 6; // Solo se permiten 6 productos
+        let contador = 0; // Lleva el conteo de cuántos precios se han ingresado
+
+        // -----------------------------
+        // CAPTURA DE ELEMENTOS HTML
+        // -----------------------------
+        const txtPrecio = document.getElementById("id-txt-precio");
+        const btnAgregar = document.getElementById("id-btn-agregar");
+        const btnMostrar = document.getElementById("id-btn-mostrar");
+        const btnCalcularTotal = document.getElementById("id-btn-calcular-total");
+
+        const mostrarPrecios = document.getElementById("id-mostrar-precios");
+        const mostrarTotal = document.getElementById("id-total");
+
+        // -----------------------------
+        // EVENTO: AGREGAR PRECIO
+        // -----------------------------
+        btnAgregar.addEventListener("click", () => {
+            if (contador < LIMITE_PRODUCTOS) {
+                const precio = parseFloat(txtPrecio.value); // Convertimos el texto a número decimal
+
+                if (!isNaN(precio) && precio >= 0) {
+                    vectorPrecios.push(precio); // Agregamos al vector
+                    contador++; // Aumentamos el contador
+                    txtPrecio.value = ''; // Limpiamos la caja
+                    console.log(vectorPrecios); // Mostramos en consola para verificar
+                } else {
+                    alert("Ingrese un valor numérico válido");
+                }
+            } else {
+                alert("Solo puede ingresar " + LIMITE_PRODUCTOS + " productos.");
+            }
+        });
+
+        // -----------------------------
+        // EVENTO: MOSTRAR PRECIOS
+        // -----------------------------
+        btnMostrar.addEventListener("click", () => {
+            if (vectorPrecios.length > 0) {
+                mostrarPrecios.innerHTML = "Precios ingresados: " + vectorPrecios.join(" ; ");
+            } else {
+                mostrarPrecios.innerHTML = "Aún no ha ingresado precios.";
+            }
+        });
+
+        // -----------------------------
+        // EVENTO: CALCULAR TOTAL
+        // -----------------------------
+        btnCalcularTotal.addEventListener("click", () => {
+            let suma = 0;
+            // Recorremos el vector con un ciclo for
+            for (let i = 0; i < vectorPrecios.length; i++) {
+                suma = suma + vectorPrecios[i];
+            }
+
+            // Mostramos el resultado total
+            mostrarTotal.innerHTML = "Total invertido: $" + suma.toFixed(2);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 5 - Consulta de Saldos Bancarios</title>
+</head>
+<body>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th colspan="4">Consulta de Saldos Bancarios - Banco "Mi Futuro"</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- FILA 1: Ingreso de saldos -->
+            <tr>
+                <td>Ingrese el saldo del cliente:</td>
+                <td><input type="number" id="id-txt-saldo" placeholder="Ej: 1200.50"></td>
+                <td><button id="id-btn-agregar">Agregar</button></td>
+                <td><button id="id-btn-mostrar">Mostrar saldos</button></td>
+            </tr>
+
+            <!-- FILA 2: Mostrar los saldos ingresados -->
+            <tr>
+                <td colspan="4">
+                    <span id="id-mostrar-saldos">Los saldos ingresados aparecerán aquí...</span>
+                </td>
+            </tr>
+
+            <!-- FILA 3: Consulta de saldo por número de cuenta -->
+            <tr>
+                <td>Ingrese el número de cuenta (1-10):</td>
+                <td><input type="number" id="id-txt-cuenta" placeholder="Ej: 3"></td>
+                <td colspan="2"><button id="id-btn-consultar">Consultar Saldo</button></td>
+            </tr>
+
+            <!-- FILA 4: Mostrar resultado de la consulta -->
+            <tr>
+                <td colspan="4">
+                    <span id="id-resultado">El saldo aparecerá aquí...</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // -----------------------------------------
+        // DECLARACIÓN DE VARIABLES Y CONSTANTES
+        // -----------------------------------------
+        const vectorSaldos = []; // Vector que almacenará los saldos de los 10 clientes
+        const LIMITE_CLIENTES = 10; // Número máximo de cuentas permitidas
+        let contador = 0; // Lleva el control de cuántos saldos se han ingresado
+
+        // -----------------------------------------
+        // CAPTURA DE ELEMENTOS HTML
+        // -----------------------------------------
+        const txtSaldo = document.getElementById("id-txt-saldo");
+        const txtCuenta = document.getElementById("id-txt-cuenta");
+
+        const btnAgregar = document.getElementById("id-btn-agregar");
+        const btnMostrar = document.getElementById("id-btn-mostrar");
+        const btnConsultar = document.getElementById("id-btn-consultar");
+
+        const mostrarSaldos = document.getElementById("id-mostrar-saldos");
+        const resultado = document.getElementById("id-resultado");
+
+        // -----------------------------------------
+        // EVENTO 1: AGREGAR SALDO AL VECTOR
+        // -----------------------------------------
+        btnAgregar.addEventListener("click", () => {
+            if (contador < LIMITE_CLIENTES) {
+                const saldo = parseFloat(txtSaldo.value); // Convertimos a número decimal
+
+                // Validamos que el valor ingresado sea válido
+                if (!isNaN(saldo) && saldo >= 0) {
+                    vectorSaldos.push(saldo); // Guardamos el saldo en el vector
+                    contador++; // Incrementamos el contador
+                    txtSaldo.value = ''; // Limpiamos la caja de texto
+                    console.log("Saldos actuales:", vectorSaldos);
+                } else {
+                    alert("Ingrese un saldo válido (número positivo).");
+                }
+            } else {
+                alert("Ya ingresó los saldos de los 10 clientes permitidos.");
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 2: MOSTRAR TODOS LOS SALDOS INGRESADOS
+        // -----------------------------------------
+        btnMostrar.addEventListener("click", () => {
+            if (vectorSaldos.length > 0) {
+                let texto = "";
+                for (let i = 0; i < vectorSaldos.length; i++) {
+                    texto += "Cuenta N° " + (i + 1) + ": $" + vectorSaldos[i].toFixed(2) + "<br>";
+                }
+                mostrarSaldos.innerHTML = texto;
+            } else {
+                mostrarSaldos.innerHTML = "No se han registrado saldos aún.";
+            }
+        });
+
+        // -----------------------------------------
+        // EVENTO 3: CONSULTAR SALDO POR NÚMERO DE CUENTA
+        // -----------------------------------------
+        btnConsultar.addEventListener("click", () => {
+            const numCuenta = parseInt(txtCuenta.value); // Convertimos el valor a entero
+
+            // Validamos que el número de cuenta esté dentro del rango
+            if (!isNaN(numCuenta) && numCuenta >= 1 && numCuenta <= LIMITE_CLIENTES) {
+                if (vectorSaldos.length === LIMITE_CLIENTES) {
+                    // Restamos 1 porque los vectores empiezan desde índice 0
+                    const saldo = vectorSaldos[numCuenta - 1];
+                    resultado.innerHTML = 
+                        "El saldo de la cuenta N° " + numCuenta + " es: $" + saldo.toFixed(2);
+                } else {
+                    alert("Primero debe ingresar los saldos de los 10 clientes.");
+                }
+            } else {
+                resultado.innerHTML = 
+                    "Error: El número de cuenta ingresado no existe (debe ser entre 1 y 10).";
+            }
+        });
+    </script>
+
+</body>
+</html>
