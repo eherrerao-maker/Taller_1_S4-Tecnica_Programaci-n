@@ -1,10 +1,9 @@
-# Taller_1_S4-Tecnica_Programaci-n
-javascript, html, vectores, array, etc
 # Taller 01 – Ejercicios con Vectores  
 **Asignatura:** Técnicas de Programación  
 **Unidad:** 1 – 2  
 **Tema:** Sentencias de Ciclos (For)  
 **Tipo de Actividad:** Taller Práctico  
+javascript, html, vectores, array, etc
 
 ---
 
@@ -27,8 +26,6 @@ El presente taller tiene como propósito consolidar los conocimientos adquiridos
 - [Elian Oswaldo Herrera Olmedo]  
 - [Sabino Andrés Naranjo Naranjo]  
 - [Anthony Misael Aguirre Moran]  
-
-> **Nota:** La entrega del trabajo es individual, sin embargo, la calificación será grupal conforme a las indicaciones del docente.
 
 ---
 
